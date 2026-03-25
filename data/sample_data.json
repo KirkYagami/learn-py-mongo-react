@@ -1,0 +1,9 @@
+{
+    "fruits": [
+        "apple",
+        "banana",
+        "cherry"
+    ],
+    "count": 3,
+    "isAvaiabale": true
+}

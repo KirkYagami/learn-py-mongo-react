@@ -8,6 +8,10 @@ module doc strings
     # open files, write/create files, read the content, delete
     # append info into the file
 
+import json
+
+json.dump()
+json.load()
 
 import os
 
