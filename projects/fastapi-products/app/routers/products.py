@@ -5,6 +5,7 @@ from bson.errors import InvalidId
 from ..database import products_collection, document_to_dict
 from ..utils.helpers import rate_limiter
 from .. import schemas
+from .. import oauth2
 
 router = APIRouter(
     prefix = "/products",
@@ -66,9 +67,20 @@ async def get_product(product_id: str):
     return document_to_dict(product)
 
 
+# protected
+
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.ProductResponse)
 async def create_product(
-    request: schemas.ProductCreate):
+    request: schemas.ProductCreate,
+    current_user: schemas.TokenData=Depends(oauth2.get_current_user)):
+    """
+    # ↑ Declaring this dependency means FastAPI will:
+    #   1. Extract the Bearer token from the Authorization header
+    #   2. Validate it
+    #   3. Inject the TokenData if valid
+    #   4. Return 401 automatically if invalid
+    """
+
     # .model_dump() converts Pydantic model → dict
     product_data = request.model_dump()
     

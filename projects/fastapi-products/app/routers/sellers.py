@@ -4,7 +4,7 @@ from bson.errors import InvalidId
 from typing import List
 from .. import schemas
 from ..database import sellers_collection, document_to_dict
-
+from .. import oauth2
 
 router = APIRouter(
     prefix="/sellers",

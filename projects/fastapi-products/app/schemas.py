@@ -35,3 +35,23 @@ class SellerResponse(BaseModel):
     id: str
     username: str
     email: str
+
+
+# AUTH Schemas
+
+
+class LoginRequest(BaseModel):
+    """For our custom JSON login endpoint"""
+    username: str
+    password: str
+
+
+class Token(BaseModel):
+    """Returned after a successful login"""
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    """The data stored inside the JWT token"""
+    username: Optional[str] = None
