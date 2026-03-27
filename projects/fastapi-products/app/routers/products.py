@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from typing import List, Optional
 from bson import ObjectId
 from bson.errors import InvalidId 
 from ..database import products_collection, document_to_dict
+from ..utils.helpers import rate_limiter
 from .. import schemas
 
 router = APIRouter(
@@ -20,7 +21,9 @@ def get_object_id(id_str:str) -> ObjectId:
         )
    
 
-@router.get("/", response_model=List[schemas.ProductResponse])
+@router.get("/",
+             response_model=List[schemas.ProductResponse],
+             dependencies=[Depends(rate_limiter(max_requests=3, window_seconds=60))])
 async def list_products(
     limit: int = 10,
     skip: int = 0,

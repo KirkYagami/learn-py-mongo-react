@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.routers import products, sellers
+from app.middleware import log_requests
 
 
 app = FastAPI(
@@ -7,11 +8,12 @@ app = FastAPI(
     description="A complete CRUD API for products and sellers",
     version="0.4.0",
     contact={
-        "name": "Your Name",
-        "email": "you@example.com"
+        "name": "Nikhil Sharma",
+        "email": "er.nikhilsharma7.com"
     }
 )
 
+app.middleware("http")(log_requests)
 app.include_router(products.router)
 app.include_router(sellers.router)
 

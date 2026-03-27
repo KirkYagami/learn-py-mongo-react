@@ -12,8 +12,14 @@ import os
 
 load_dotenv()
 
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://127.0.0.1:27017/")
+
 DATABASE_NAME = os.getenv("DATABASE_NAME", "products_api")
+MONGO_USER = os.getenv("MONGO_USER")
+MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
+
+MONGO_CLUSTER_URL = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@cluster01.rkhk5fj.mongodb.net/?appName=Cluster01"
 
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -85,11 +91,11 @@ PRODUCTS = [
 
 
 async def seed():
-    client = AsyncIOMotorClient(MONGODB_URL)
+    client = AsyncIOMotorClient(MONGO_CLUSTER_URL)
     db = client[DATABASE_NAME]
     
     print(f"🌱 Seeding database: {DATABASE_NAME}")
-    print(f"   Connected to: {MONGODB_URL[:30]}...")
+    print(f"   Connected to: {MONGO_CLUSTER_URL[:30]}...")
     
     # Clear existing data
     await db.sellers.delete_many({})
@@ -105,6 +111,8 @@ async def seed():
             # "hashed_password": pwd_context.hash(seller_data["password"])
         })
         seller_map[seller_data["username"]] = str(result.inserted_id)
+
+        
         print(f"  ✅ Seller: {seller_data['username']}")
     
     # Insert products (link to sellers)
