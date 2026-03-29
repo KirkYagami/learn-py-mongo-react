@@ -19,7 +19,7 @@ MONGO_CLUSTER_URL = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@cluster01.rkhk
 In a FastAPI application, the primary difference is that AsyncIOMotorClient is non-blocking and ideal for asynchronous environments, while MongoClient is blocking and will significantly hinder performance. FastAPI, being an asynchronous framework, is designed to work with asynchronous drivers to handle concurrent requests efficiently.
 """
 # mongodb async driver -> pip install motor
-client = AsyncIOMotorClient(MONGO_CLUSTER_URL)
+client = AsyncIOMotorClient(MONGO_URL)
 
 db = client[DATABASE_NAME]
 products_collection = db["products"]

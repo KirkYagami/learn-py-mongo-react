@@ -94,9 +94,40 @@ async def create_product(
     return document_to_dict(new_product)
 
 @router.patch("/{product_id}", response_model=schemas.ProductResponse)
-def update_product(product_id: int, request: schemas.ProductUpdate):
+async def update_product(
+    product_id: str,
+    request: schemas.ProductUpdate,
+    current_user: schemas.TokenData = Depends(oauth2.get_current_user)
+):
     """Partially update a product"""
-    pass
+
+    oid = get_object_id(product_id)
+
+    # Only take fields that were actually sent (PATCH behavior)
+    update_data = request.model_dump(exclude_unset=True)
+
+    if not update_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No fields provided for update"
+        )
+
+    # Perform update
+    result = await products_collection.update_one(
+        {"_id": oid},
+        {"$set": update_data}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product {product_id} not found"
+        )
+
+    # Fetch updated document
+    updated_product = await products_collection.find_one({"_id": oid})
+
+    return document_to_dict(updated_product)
 
 
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
