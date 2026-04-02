@@ -1,4 +1,4 @@
 # Python | MongoDB | React
 
-![](./assets/images/project-flow.png)
+![](./assets/images/design-flow.png)
 
