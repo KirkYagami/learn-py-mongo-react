@@ -1,0 +1,45 @@
+{
+  "_id": "ObjectId",
+  "title": "String",
+  "description": "String",
+  "status": "open",
+  "priority": "medium",
+
+  "departmentId": "ObjectId",
+  "submittedBy": "ObjectId",
+  "assignedTo": "ObjectId",
+
+  "attachments": [
+    {
+      "url": "String",
+      "filename": "String",
+      "mimetype": "image/jpeg",
+      "uploadedAt": "2026-01-01T00:00:00Z"
+    }
+  ],
+
+  "statusHistory": [
+    {
+      "status": "open",
+      "changedBy": "ObjectId",
+      "note": "String",
+      "timestamp": "2026-01-01T00:00:00Z"
+    }
+  ],
+
+  "comments": [
+    {
+      "_id": "ObjectId",
+      "authorId": "ObjectId",
+      "role": "student",
+      "text": "String",
+      "isInternal": false,
+      "createdAt": "2026-01-01T00:00:00Z"
+    }
+  ],
+
+  "isAnonymous": false,
+  "createdAt": "2026-01-01T00:00:00Z",
+  "updatedAt": "2026-01-01T00:00:00Z",
+  "resolvedAt": null
+}
